@@ -34,6 +34,7 @@ class Plotter(object):
         # graph setting
         for idx, title in enumerate(self.data_y.keys()):
             self.graphs.append(self.fig.add_subplot(gs[idx, 0]))
+            plt.ylim([0, 1])
             plt.title( title )
 
         for idx, data_dict in enumerate(self.data_y.values()):

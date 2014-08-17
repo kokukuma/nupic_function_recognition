@@ -36,8 +36,8 @@ class FunctionRecogniter():
         # net structure
         self.net_structure = OrderedDict()
         self.net_structure['sensor1'] = ['region1']
-        # self.net_structure['sensor2'] = ['region2']
-        # self.net_structure['sensor3'] = ['region3']
+        #self.net_structure['region1'] = ['region2']
+        #self.net_structure['region2'] = ['region3']
         # self.net_structure['region1'] = ['region4']
         # self.net_structure['region2'] = ['region4']
 
@@ -75,13 +75,19 @@ class FunctionRecogniter():
                         },
                     },
                 # 'region2': {
+                #     'SP_PARAMS':{
+                #         "inputWidth": 2024 * 16
+                #         },
                 #     'TP_PARAMS':{
-                #         "cellsPerColumn": 8
+                #         "cellsPerColumn": 16
                 #         },
                 #     },
                 # 'region3': {
+                #     'SP_PARAMS':{
+                #         "inputWidth": 2024 * 16
+                #         },
                 #     'TP_PARAMS':{
-                #         "cellsPerColumn": 8
+                #         "cellsPerColumn": 16
                 #         },
                 #     },
                 # 'region4': {
@@ -247,7 +253,8 @@ class FunctionRecogniter():
         inferences["anomaly"] = self._calc_anomaly()
 
         # selectivity
-        if input_data['ftype'] is not None and inferences["anomaly"][self.selectivity] < 0.7:
+        if input_data['ftype'] is not None:
+        #if input_data['ftype'] is not None and inferences["anomaly"][self.selectivity] < 0.7:
         #if input_data['ftype'] is not None and input_data['xy_value'][0] > 40 and input_data['xy_value'][0] < 60:
             tp_bottomUpOut = self.network.regions[ "tp_" + self.selectivity ].getOutputData("bottomUpOut").nonzero()[0]
             self.evaluation.save_cell_activity(tp_bottomUpOut, input_data['ftype'])
@@ -366,6 +373,7 @@ class FunctionRecogniter():
                 int(input_data['xy_value'][1]),
                 input_data['ftype']),
 
+
         for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
             print "%5s," % (inferences['classifier_'+name]['best']['value']),
 
@@ -374,6 +382,10 @@ class FunctionRecogniter():
 
         for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
             print "%5s," % (str(inferences["anomaly"][name])),
+
+        for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
+            print "%5s," % name,
+
         print
 
     # def layer_output(self, input_data):

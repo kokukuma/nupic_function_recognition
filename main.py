@@ -9,31 +9,16 @@ from lib.function_recognition import FunctionRecogniter
 from lib.function_data import function_data
 from lib.plotter import Plotter
 
-def main():
-    fd = function_data()
-    recogniter = FunctionRecogniter()
+def predict_example(fd, recogniter):
+    """
+    全ての関数から得たデータをnetwrokに入力, 関数を予測する.
+    最終的に, 関数毎の平均正解率と入力に対する正解率を表示する.
+    neuronの選択性が得られているかを表示.
+
+    """
     plotter    = Plotter()
-
-    # トレーニング
-    for i in range(50):
-        print i,
-        for num, ftype in enumerate(fd.function_list.keys()):
-            data = fd.get_data(ftype)
-            for x, y in data:
-                input_data = {
-                        'xy_value': [x, y],
-                        'ftype': ftype
-                        }
-                inferences = recogniter.run(input_data, learn=True)
-
-                # print
-                recogniter.print_inferences(input_data, inferences)
-
-            recogniter.reset()
-
-
-    # 予測1
     result = defaultdict(list)
+
     for ftype in fd.function_list.keys():
         print ftype
         data = fd.get_data(ftype)
@@ -63,13 +48,64 @@ def main():
     # print evaluation summary
     recogniter.evaluation.print_summary()
 
-    # plot selectivity
-    selectivity = recogniter.evaluation.get_selectivity()
-    for title, data in selectivity.items():
-        plotter.add( title = 'selectivity', y_values={title:data['y']}, x_values={title:data['x']} )
+    # # plot selectivity
+    # selectivity = recogniter.evaluation.get_selectivity()
+    # for title, data in selectivity.items():
+    #     plotter.add( title = 'selectivity', y_values={title:data['y']}, x_values={title:data['x']} )
 
     plotter.show()
 
+
+def predict_example_2(fd, recogniter):
+    """
+    データはランダムに選択された関数から取得してnetwrokに入力.
+    関数を確率を表示する.
+    """
+    plotter    = Plotter()
+    result = defaultdict(list)
+
+    #for ftype in fd.function_list.keys():
+    for idx in range(100):
+        ftype = fd.romdom_choice()
+        data  = fd.get_data(ftype)
+        for x, y in data:
+            input_data = {
+                    'xy_value': [x, y],
+                    'ftype': None
+                    }
+            inferences = recogniter.run(input_data, learn=False)
+
+            # print
+            input_data['ftype'] = ftype
+            recogniter.print_inferences(input_data, inferences)
+
+            tmp = inferences[ "classifier_" + recogniter.selectivity]['likelihoodsDict'][ftype]
+            result[ftype].append(tmp)
+    pass
+
+def main():
+    fd = function_data()
+    recogniter = FunctionRecogniter()
+
+    # トレーニング
+    for i in range(50):
+        print i,
+        for num, ftype in enumerate(fd.function_list.keys()):
+            data = fd.get_data(ftype)
+            for x, y in data:
+                input_data = {
+                        'xy_value': [x, y],
+                        'ftype': ftype
+                        }
+                inferences = recogniter.run(input_data, learn=True)
+
+                # print
+                recogniter.print_inferences(input_data, inferences)
+
+            recogniter.reset()
+
+    # 予測
+    predict_example(fd, recogniter)
 
 
     # # 予測2, fixed-sin
