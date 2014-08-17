@@ -61,10 +61,20 @@ def predict_example_2(fd, recogniter):
     データはランダムに選択された関数から取得してnetwrokに入力.
     関数を確率を表示する.
     """
-    plotter    = Plotter()
+    plotter_2    = Plotter()
     result = defaultdict(list)
 
+    plotter_2.setting({
+        'xy_value':{
+            'ylim': [0,100],
+            'sub_title': ['value']},
+        'likelihood':{
+            'ylim': [0,1],
+            'sub_title': fd.function_list.keys()},
+        })
+
     #for ftype in fd.function_list.keys():
+    print '################"'
     for idx in range(100):
         ftype = fd.romdom_choice()
         data  = fd.get_data(ftype)
@@ -79,16 +89,16 @@ def predict_example_2(fd, recogniter):
             input_data['ftype'] = ftype
             recogniter.print_inferences(input_data, inferences)
 
-            tmp = inferences[ "classifier_" + recogniter.selectivity]['likelihoodsDict'][ftype]
-            result[ftype].append(tmp)
-    pass
+            tmp = inferences[ "classifier_" + recogniter.selectivity]['likelihoodsDict']
+            plotter_2.write_draw(title='xy_value',   x_value={'value': x + 100 * idx}, y_value={'value': y})
+            plotter_2.write_draw(title='likelihood', x_value=dict([(sub, x + 100 * idx) for sub in tmp.keys()]),  y_value=tmp)
 
 def main():
     fd = function_data()
     recogniter = FunctionRecogniter()
 
     # トレーニング
-    for i in range(50):
+    for i in range(100):
         print i,
         for num, ftype in enumerate(fd.function_list.keys()):
             data = fd.get_data(ftype)
@@ -107,6 +117,7 @@ def main():
     # 予測
     predict_example(fd, recogniter)
 
+    predict_example_2(fd, recogniter)
 
     # # 予測2, fixed-sin
     # import numpy

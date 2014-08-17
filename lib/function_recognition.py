@@ -31,15 +31,44 @@ class FunctionRecogniter():
         self.classifier_input_list   = {}
         self.prevPredictedColumns    = {}
 
-        self.selectivity = "region1"
+        self.selectivity = "region4"
 
         # net structure
         self.net_structure = OrderedDict()
-        self.net_structure['sensor1'] = ['region1']
-        #self.net_structure['region1'] = ['region2']
-        #self.net_structure['region2'] = ['region3']
-        # self.net_structure['region1'] = ['region4']
-        # self.net_structure['region2'] = ['region4']
+        self.net_structure['sensor1'] = ['region1', 'region2']
+        self.net_structure['region1'] = ['region4']
+        self.net_structure['region2'] = ['region4']
+
+
+        # region change params
+        self.dest_resgion_data = {
+                'region1': {
+                    'TP_PARAMS':{
+                        "cellsPerColumn": 4
+                        },
+                    },
+                'region2': {
+                    'TP_PARAMS':{
+                        "cellsPerColumn": 8
+                        },
+                    },
+                # 'region3': {
+                #     'SP_PARAMS':{
+                #         "inputWidth": 2024 * 16
+                #         },
+                #     'TP_PARAMS':{
+                #         "cellsPerColumn": 16
+                #         },
+                #     },
+                'region4': {
+                    'SP_PARAMS':{
+                        "inputWidth": 2024 * (4 + 8)
+                        },
+                    'TP_PARAMS':{
+                        "cellsPerColumn": 16
+                        },
+                    },
+                 }
 
         # sensor change params
         self.sensor_params = {
@@ -62,43 +91,6 @@ class FunctionRecogniter():
                 #         },
                 #     },
                 }
-
-        # region change params
-        self.dest_resgion_data = {
-                'region1': {
-                    'SP_PARAMS':{
-                        "columnCount": 2024,
-                        "numActiveColumnsPerInhArea": 20,
-                        },
-                    'TP_PARAMS':{
-                        "cellsPerColumn": 16
-                        },
-                    },
-                # 'region2': {
-                #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * 16
-                #         },
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 16
-                #         },
-                #     },
-                # 'region3': {
-                #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * 16
-                #         },
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 16
-                #         },
-                #     },
-                # 'region4': {
-                #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * (4 + 8)
-                #         },
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 16
-                #         },
-                #     },
-                 }
 
         self._createNetwork()
 
