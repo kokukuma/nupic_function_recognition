@@ -46,3 +46,17 @@ class function_data(object):
         return result
 
 
+if __name__ == '__main__':
+    import csv
+    fd = function_data()
+    with open('function_data.csv', 'wb') as f:
+        csvWriter = csv.writer(f)
+        csvWriter.writerow(['x', 'y', 'function'])
+        csvWriter.writerow([ 'float', 'float', 'string'])
+        csvWriter.writerow(['', '', ''])
+
+        for ftype in fd.function_list.keys():
+            print ftype
+            for d in fd.get_data(ftype):
+                csvWriter.writerow([d[0], d[1], ftype])
+
