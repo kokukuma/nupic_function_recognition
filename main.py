@@ -18,6 +18,14 @@ def predict_example(fd, recogniter):
     """
     plotter    = Plotter()
     result = defaultdict(list)
+    plotter.initialize({
+        'xy_value':{
+            'ylim': [0,100],
+            'sub_title': ['value']},
+        'likelihood':{
+            'ylim': [0,1],
+            'sub_title': fd.function_list.keys()},
+        }, movable=False)
 
     for ftype in fd.function_list.keys():
         print ftype
@@ -33,13 +41,20 @@ def predict_example(fd, recogniter):
             input_data['ftype'] = ftype
             recogniter.print_inferences(input_data, inferences)
 
+            # for result summary
             tmp = inferences[ "classifier_" + recogniter.selectivity]['likelihoodsDict'][ftype]
             result[ftype].append(tmp)
 
+            # for plot
+            plotter.write(title="xy_value", x_value={'value': x}, y_value={'value': y})
+            plotter.write(title="likelihood", y_value=inferences[ "classifier_" + recogniter.selectivity]['likelihoodsDict'])
 
-    # plot write
+        plotter.show()
+        plotter.reset()
+
+
+    # write result summary
     import numpy
-    plotter.add(title='result', y_values=result)
     print '### result'
     for title , data in result.items():
         print title , " : ",
@@ -48,12 +63,6 @@ def predict_example(fd, recogniter):
     # print evaluation summary
     recogniter.evaluation.print_summary()
 
-    # # plot selectivity
-    # selectivity = recogniter.evaluation.get_selectivity()
-    # for title, data in selectivity.items():
-    #     plotter.add( title = 'selectivity', y_values={title:data['y']}, x_values={title:data['x']} )
-
-    plotter.show()
 
 
 def predict_example_2(fd, recogniter):
@@ -64,14 +73,14 @@ def predict_example_2(fd, recogniter):
     plotter_2    = Plotter()
     result = defaultdict(list)
 
-    plotter_2.setting({
+    plotter_2.initialize({
         'xy_value':{
             'ylim': [0,100],
             'sub_title': ['value']},
         'likelihood':{
             'ylim': [0,1],
             'sub_title': fd.function_list.keys()},
-        })
+        }, movable=True)
 
     #for ftype in fd.function_list.keys():
     print '################"'
@@ -98,7 +107,7 @@ def main():
     recogniter = FunctionRecogniter()
 
     # トレーニング
-    for i in range(100):
+    for i in range(50):
         print i,
         for num, ftype in enumerate(fd.function_list.keys()):
             data = fd.get_data(ftype)
@@ -117,7 +126,8 @@ def main():
     # 予測
     predict_example(fd, recogniter)
 
-    predict_example_2(fd, recogniter)
+    #predict_example_2(fd, recogniter)
+
 
     # # 予測2, fixed-sin
     # import numpy
