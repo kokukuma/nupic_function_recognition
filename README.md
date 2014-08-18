@@ -63,13 +63,13 @@ nupic_function_recognition
   + 一番正解率が低い定数に置ける結果
     + カラムを多くした場合, 多少改善する.
     + 1012
-      + ![1012_10_16_flat](docs/images/1012_10_16_flat.png)
+      ![1012_10_16_flat](docs/images/1012_10_16_flat.png)
     + 2024
-      + ![2024_20_16_flat](docs/images/2024_20_16_flat.png)
+      ![2024_20_16_flat](docs/images/2024_20_16_flat.png)
     + 4048
-      + ![4048_40_16_flat](docs/images/4048_40_16_flat.png)
+      ![4048_40_16_flat](docs/images/4048_40_16_flat.png)
     + 8096
-      + ![8096_80_16_flat](docs/images/8096_80_16_flat.png)
+      ![8096_80_16_flat](docs/images/8096_80_16_flat.png)
 
 + SPのカラム発火割合変更
   + カラム数2024をベースとして, カラム発火割合を0.5%, 1%, 2%と変更した.
@@ -124,9 +124,9 @@ nupic_function_recognition
 
   + 入力毎正解率
     + sin
-      + ![4048_40_32_sin.png](docs/images/4048_40_32_sin.png)
+      ![4048_40_32_sin.png](docs/images/4048_40_32_sin.png)
     + flat
-      + ![4048_40_32_flat.png](docs/images/4048_40_32_flat.png)
+      ![4048_40_32_flat.png](docs/images/4048_40_32_flat.png)
 
 
 ### 多層
