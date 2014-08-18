@@ -55,12 +55,18 @@ class FunctionRecogniter():
                         },
                     },
                 # 'region2': {
+                #     'SP_PARAMS':{
+                #         "columnCount": 4048,
+                #         "numActiveColumnsPerInhArea": 40,
+                #         },
                 #     'TP_PARAMS':{
                 #         "cellsPerColumn": 8
                 #         },
                 #     },
                 # 'region3': {
                 #     'SP_PARAMS':{
+                #         "columnCount": 4048,
+                #         "numActiveColumnsPerInhArea": 40,
                 #         "inputWidth": 2024 * (4 + 8)
                 #         },
                 #     'TP_PARAMS':{
