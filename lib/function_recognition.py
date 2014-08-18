@@ -46,8 +46,12 @@ class FunctionRecogniter():
         # region change params
         self.dest_resgion_data = {
                 'region1': {
+                    'SP_PARAMS':{
+                        "columnCount": 4048,
+                        "numActiveColumnsPerInhArea": 40,
+                        },
                     'TP_PARAMS':{
-                        "cellsPerColumn": 16
+                        "cellsPerColumn": 32
                         },
                     },
                 # 'region2': {
