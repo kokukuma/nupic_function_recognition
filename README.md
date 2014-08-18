@@ -9,6 +9,7 @@ nupic_function_recognition
 + 時系列データ( y=f(x) )を入力し, そのデータを作成した関数を判別するタスクを解く.
 + nupicのnetwrok apiを使い, 入力が(x, y), 出力が関数確率(softmax関数みたいな感じ)となるnetwork(encoder, spacial pooler, temporal pooler)を作成する. このnetworkに対して, ある関数の出力f(x)をx=1からx=100まで入力する. 判別を行うclassifierには, 教師データとして関数の種類を入力する. これを繰り返し学習を行う. これにより, (x,y)の時系列データから関数fを判別できるnetworkができる.
 + このnetworkは, たとえ同じ入力であっても, それまで入力された内容からどの関数であるかを判別できる. 例えば, 単調増加(y=x)と単調減少(y=100-x)について考えてみると, (x,y)=(50, 50)は単調増加/単調減少どちらの関数にも当てはまるので, (x,y)のみではその値が単調増加から得られたものか単調減少から得られたものかを判別することは出来ない. しかし, このnetworkでは, x=50以前の入力も考慮されるので関数を判別することができる.
++ [nupic](https://github.com/numenta/nupic)をインストールする必要がある.
 
 ### 単層
 + 対象関数
@@ -173,7 +174,7 @@ nupic_function_recognition
 
 ## Install
 + だいたいここの通りにやればできた.
-+ [nupic](https://github.com/numenta/nupic )
++ [nupic](https://github.com/numenta/nupic)
 
 ## tutorial
 + [nupic_tutorials](https://github.com/kokukuma/nupic_tutorials#network_api)
