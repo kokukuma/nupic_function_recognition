@@ -27,9 +27,9 @@ class function_data(object):
                 'flat':  lambda x: 50.0,
                 'plus':  lambda x: float(x),
                 'minus': lambda x: 100-float(x),
-                'sin':   lambda x: numpy.sin(x *  4 * numpy.pi/self.max_x) * 50 + 50,
-                'quad':  lambda x: float(x*x)/self.max_x,
-                'step':  lambda x: 100.0 if int(float(x)/15) % 2 == 0  else 0.0
+                # 'sin':   lambda x: numpy.sin(x *  4 * numpy.pi/self.max_x) * 50 + 50,
+                # 'quad':  lambda x: float(x*x)/self.max_x,
+                # 'step':  lambda x: 100.0 if int(float(x)/15) % 2 == 0  else 0.0
                 }
 
     def romdom_choice(self):

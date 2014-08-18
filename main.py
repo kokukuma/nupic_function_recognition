@@ -124,9 +124,9 @@ def main():
             recogniter.reset()
 
     # 予測
-    predict_example(fd, recogniter)
+    #predict_example(fd, recogniter)
 
-    #predict_example_2(fd, recogniter)
+    predict_example_2(fd, recogniter)
 
 
     # # 予測2, fixed-sin

@@ -36,8 +36,9 @@ class FunctionRecogniter():
         # net structure
         self.net_structure = OrderedDict()
         self.net_structure['sensor1'] = ['region1']
-        # self.net_structure['region1'] = ['region3']
-        # self.net_structure['region2'] = ['region3']
+        # self.net_structure['region1'] = ['region4']
+        # self.net_structure['region2'] = ['region4']
+        # self.net_structure['region3'] = ['region4']
         # self.net_structure['sensor1'] = ['region1', 'region2']
         # self.net_structure['region1'] = ['region4']
         # self.net_structure['region2'] = ['region4']
@@ -67,7 +68,6 @@ class FunctionRecogniter():
                 #     'SP_PARAMS':{
                 #         "columnCount": 4048,
                 #         "numActiveColumnsPerInhArea": 40,
-                #         "inputWidth": 2024 * (4 + 8)
                 #         },
                 #     'TP_PARAMS':{
                 #         "cellsPerColumn": 16
@@ -75,10 +75,10 @@ class FunctionRecogniter():
                 #     },
                 # 'region4': {
                 #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * (4 + 8)
+                #         "inputWidth": 2024 * (4 + 8 + 16)
                 #         },
                 #     'TP_PARAMS':{
-                #         "cellsPerColumn": 16
+                #         "cellsPerColumn": 32
                 #         },
                 #     },
                  }
