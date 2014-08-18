@@ -153,6 +153,17 @@ nupic_function_recognition
 + 結果
   + 未実行
 
+### 備考
++ CLAって分類に使うものなのか?
+  + CLAはそもそも, オンラインで数ステップ先の結果を予測するものだから, ここでやっているように教師あり学習させる使い方は, 適切でないかも.
++ 普通にnupic使ったらこんなエラーがでた.
+  + encoderにVectorEncoderOPFを使ったせい.
+  + [nupic/issues/727](https://github.com/numenta/nupic/issues/727) にも上がっていたが, VectorEncoderOPF自体が不完全ぽいので, issue上げた人と同じ対応をした. VectorEncoderOPF使うべきでは無さそう.
+```
+  File "/Library/Python/2.7/site-packages/nupic-0.1.0-py2.7.egg/nupic/regions/RecordSensor.py", line 296, in compute
+      outputs['sourceOut'][:] = self.encoder.getScalars(data)
+      ValueError: could not broadcast input array from shape (2) into shape (1)
+```
 
 ---
 
