@@ -81,6 +81,8 @@ SENSOR_PARAMS = {
         "maxval": 100.0,
         "minval": 0.0,
     },
+    "x_value": None,
+    "y_value": None
 }
 
 
