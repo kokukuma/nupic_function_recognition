@@ -31,19 +31,16 @@ class FunctionRecogniter():
         self.classifier_input_list   = {}
         self.prevPredictedColumns    = {}
 
-        self.selectivity = "region7"
+        self.selectivity = "region3"
 
         # net structure
         self.net_structure = OrderedDict()
-        # self.net_structure['sensor1'] = ['region1']
-        # self.net_structure['sensor2'] = ['region2']
-        self.net_structure['sensor3'] = ['region1']
-        self.net_structure['region1'] = ['region2']
+        self.net_structure['sensor1'] = ['region1']
+        self.net_structure['sensor2'] = ['region2']
+        self.net_structure['region1'] = ['region3']
         self.net_structure['region2'] = ['region3']
         self.net_structure['region3'] = ['region4']
-        self.net_structure['region4'] = ['region5']
-        self.net_structure['region5'] = ['region6']
-        self.net_structure['region6'] = ['region7']
+
         # self.net_structure['sensor2'] = ['region1','region2', 'region3', 'region4', 'region5']
         # self.net_structure['region1'] = ['region6']
         # self.net_structure['region2'] = ['region6']
@@ -65,51 +62,24 @@ class FunctionRecogniter():
                         },
                     },
                 'region2': {
-                    'SP_PARAMS':{
-                        "inputWidth": 2024 * (2),
-                        },
                     'TP_PARAMS':{
                         "cellsPerColumn": 2,
                         },
                     },
                 'region3': {
                     'SP_PARAMS':{
-                        "inputWidth": 2024 * (2),
+                        "inputWidth": 2024 * (2 + 2),
                         },
                     'TP_PARAMS':{
-                        "cellsPerColumn": 2,
+                        "cellsPerColumn": 16,
                         },
                     },
                 'region4': {
                     'SP_PARAMS':{
-                        "inputWidth": 2024 * (2),
+                        "inputWidth": 2024 * (16),
                         },
                     'TP_PARAMS':{
-                        "cellsPerColumn": 2,
-                        },
-                    },
-                'region5': {
-                    'SP_PARAMS':{
-                        "inputWidth": 2024 * (2),
-                        },
-                    'TP_PARAMS':{
-                        "cellsPerColumn": 2,
-                        },
-                    },
-                'region6': {
-                    'SP_PARAMS':{
-                        "inputWidth": 2024 * (2),
-                        },
-                    'TP_PARAMS':{
-                        "cellsPerColumn": 2,
-                        },
-                    },
-                'region7': {
-                    'SP_PARAMS':{
-                        "inputWidth": 2024 * (2),
-                        },
-                    'TP_PARAMS':{
-                        "cellsPerColumn": 2,
+                        "cellsPerColumn": 32,
                         },
                     },
                 # 'region4': {

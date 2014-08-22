@@ -169,9 +169,6 @@ def predict_example_3(fd, recogniter):
         for name in recogniter.dest_resgion_data.keys():
             x_tmp[name] = recogniter.evaluation[name].get_selectivity()[ftype]['x']
             y_tmp[name] = recogniter.evaluation[name].get_selectivity()[ftype]['y']
-            print
-            print x_tmp[name]
-            print y_tmp[name]
         plotter.add(title="selectivity_center", x_values=x_tmp, y_values=y_tmp)
 
         x_tmp2 = {}
@@ -179,9 +176,6 @@ def predict_example_3(fd, recogniter):
         for name in recogniter.dest_resgion_data.keys():
             x_tmp2[name] = recogniter.evaluation_2[name].get_selectivity()[ftype]['x']
             y_tmp2[name] = recogniter.evaluation_2[name].get_selectivity()[ftype]['y']
-            print
-            print x_tmp2[name]
-            print y_tmp2[name]
         plotter.add(title="selectivity_outside", x_values=x_tmp2, y_values=y_tmp2)
 
         plotter.show()
@@ -209,7 +203,7 @@ def main():
     recogniter = FunctionRecogniter()
 
     # トレーニング
-    for i in range(20):
+    for i in range(50):
         print i,
         for num, ftype in enumerate(fd.function_list.keys()):
             data = fd.get_data(ftype)
