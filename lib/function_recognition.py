@@ -37,7 +37,6 @@ class FunctionRecogniter():
         self.net_structure = OrderedDict()
         self.net_structure['sensor3'] = ['region1']
         self.net_structure['region1'] = ['region2']
-        #self.net_structure['region2'] = ['region3']
 
         # self.net_structure['sensor1'] = ['region1']
         # self.net_structure['sensor2'] = ['region2']
@@ -291,21 +290,17 @@ class FunctionRecogniter():
         # output differ
         #inferences["output_differ"] = self._calc_output_differ()
 
-
-
-        # selectivity
-        #if input_data['ftype'] is not None:
-        #if input_data['ftype'] is not None and input_data['xy_value'][0] >= 45 and input_data['xy_value'][0] <= 55:
-        if input_data['ftype'] is not None and input_data['xy_value'][0] >= 45 and input_data['xy_value'][0] <= 55:
-            #self.layer_output(input_data)
-            for name in self.dest_resgion_data.keys():
-                tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
-                self.evaluation[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
-
-        if input_data['ftype'] is not None and (input_data['xy_value'][0] <= 5 or input_data['xy_value'][0] >= 95):
-            for name in self.dest_resgion_data.keys():
-                tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
-                self.evaluation_2[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
+        # # selectivity
+        # if input_data['ftype'] is not None and input_data['xy_value'][0] >= 45 and input_data['xy_value'][0] <= 55:
+        #     #self.layer_output(input_data)
+        #     for name in self.dest_resgion_data.keys():
+        #         tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
+        #         self.evaluation[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
+        #
+        # if input_data['ftype'] is not None and (input_data['xy_value'][0] <= 5 or input_data['xy_value'][0] >= 95):
+        #     for name in self.dest_resgion_data.keys():
+        #         tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
+        #         self.evaluation_2[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
 
         return inferences
 
@@ -576,10 +571,10 @@ class NetworkEvaluation(object):
         print '+ mean : ', mean
         print '+ std : ', std
 
-        rate = self.get_selectivity_sum()
-        print
-        print "### selectivity"
-        print "+ plus  : ", rate['plus']
-        print "+ minus : ", rate['minus']
-        print "+ flat  : ", rate['flat']
-        print
+        # rate = self.get_selectivity_sum()
+        # print
+        # print "### selectivity"
+        # print "+ plus  : ", rate['plus']
+        # print "+ minus : ", rate['minus']
+        # print "+ flat  : ", rate['flat']
+        # print
