@@ -31,101 +31,47 @@ class FunctionRecogniter():
         self.classifier_input_list   = {}
         self.prevPredictedColumns    = {}
 
-        self.selectivity = "region3"
+        self.selectivity = "region2"
 
         # net structure
         self.net_structure = OrderedDict()
-        self.net_structure['sensor1'] = ['region1']
-        self.net_structure['sensor2'] = ['region2']
-        self.net_structure['region1'] = ['region3']
-        self.net_structure['region2'] = ['region3']
-        self.net_structure['region3'] = ['region4']
+        self.net_structure['sensor3'] = ['region1']
+        self.net_structure['region1'] = ['region2']
+        #self.net_structure['region2'] = ['region3']
 
-        # self.net_structure['sensor2'] = ['region1','region2', 'region3', 'region4', 'region5']
-        # self.net_structure['region1'] = ['region6']
-        # self.net_structure['region2'] = ['region6']
-        # self.net_structure['region3'] = ['region6']
-        # self.net_structure['region4'] = ['region6']
-        # self.net_structure['region5'] = ['region6']
-        # self.net_structure['region6'] = ['region7']
+        # self.net_structure['sensor1'] = ['region1']
+        # self.net_structure['sensor2'] = ['region2']
+        # self.net_structure['region1'] = ['region3']
+        # self.net_structure['region2'] = ['region3']
 
-        # self.net_structure['sensor1'] = ['region1', 'region2']
-        # self.net_structure['region1'] = ['region4']
-        # self.net_structure['region2'] = ['region4']
 
 
         # region change params
         self.dest_resgion_data = {
                 'region1': {
                     'TP_PARAMS':{
-                        "cellsPerColumn": 2,
+                        "cellsPerColumn": 8,
+                        "permanenceInc": 0.2,
+                        "permanenceDec": 0.1,
+                        #"permanenceDec": 0.0001,
                         },
                     },
                 'region2': {
-                    'TP_PARAMS':{
-                        "cellsPerColumn": 2,
-                        },
-                    },
-                'region3': {
                     'SP_PARAMS':{
-                        "inputWidth": 2024 * (2 + 2),
+                        "inputWidth": 2024 * (8),
                         },
                     'TP_PARAMS':{
-                        "cellsPerColumn": 16,
+                        "cellsPerColumn": 8,
+                        "permanenceInc": 0.2,
+                        "permanenceDec": 0.1,
                         },
                     },
-                'region4': {
-                    'SP_PARAMS':{
-                        "inputWidth": 2024 * (16),
-                        },
-                    'TP_PARAMS':{
-                        "cellsPerColumn": 32,
-                        },
-                    },
-                # 'region4': {
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 4,
-                #         },
-                #     },
-                # 'region5': {
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 4,
-                #         },
-                #     },
-                # 'region6': {
+                # 'region3': {
                 #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * (4 + 4 + 4 + 4 + 4)
-                #         },
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 4,
-                #         },
-                #     },
-                # 'region7': {
-                #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * (8 + 8)
+                #         "inputWidth": 2024 * (8),
                 #         },
                 #     'TP_PARAMS':{
                 #         "cellsPerColumn": 8,
-                #         },
-                #     },
-                # 'region3': {
-                #     'SP_PARAMS':{
-                #         "columnCount": 2024,
-                #         "numActiveColumnsPerInhArea": 20,
-                #         "inputWidth": 2024 * (16 + 16)
-                #         },
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 16
-                #         },
-                #     },
-                # 'region4': {
-                #     'SP_PARAMS':{
-                #         "columnCount": 2024,
-                #         "numActiveColumnsPerInhArea": 20,
-                #         "inputWidth": 2024 * (8 + 8)
-                #         },
-                #     'TP_PARAMS':{
-                #         "cellsPerColumn": 8
                 #         },
                 #     },
                  }
@@ -184,6 +130,8 @@ class FunctionRecogniter():
         for name in self.dest_resgion_data.keys():
             self.evaluation_2[name] = NetworkEvaluation()
 
+
+        self.prev_layer_input  = defaultdict(lambda : defaultdict(list))
 
     def _addRegion(self, src_name, dest_name, params):
 
@@ -293,6 +241,7 @@ class FunctionRecogniter():
                     params['SP_PARAMS']['inputWidth'] = sensor.encoder.getWidth()
                     self._addRegion(source, dest, params)
                 else:
+                    #self._addRegion("sp_" + source, dest, params)
                     self._addRegion("tp_" + source, dest, params)
 
         # initialize
@@ -307,7 +256,7 @@ class FunctionRecogniter():
         return
 
 
-    def run(self, input_data, learn=True):
+    def run(self, input_data, learn=True, learn_layer=None):
         """
         networkの実行.
         学習したいときは, learn=True, ftypeを指定する.
@@ -317,7 +266,7 @@ class FunctionRecogniter():
         input_data = {'xy_value': [1.0, 2.0], 'ftype': 'sin'}
         """
 
-        self.enable_learning_mode(learn)
+        self.enable_learning_mode(learn, learn_layer)
         self.run_number += 1
 
         # calc encoder, SP, TP
@@ -334,8 +283,15 @@ class FunctionRecogniter():
             class_name = "class_" + name
             inferences['classifier_'+name]   = self._learn_classifier_multi(class_name, actValue=input_data['ftype'], pstep=0)
 
+
+
         # anomaly
         inferences["anomaly"] = self._calc_anomaly()
+
+        # output differ
+        #inferences["output_differ"] = self._calc_output_differ()
+
+
 
         # selectivity
         #if input_data['ftype'] is not None:
@@ -418,6 +374,33 @@ class FunctionRecogniter():
 
         return {'likelihoodsDict': likelihoodsDict, 'best': {'value': bestActValue, 'prob':bestProb}}
 
+    def _calc_output_differ(self):
+        """
+        同じ入力があったときに, 前回の入力との差を計算する.
+        学習が進んでいるかどうかの指標に出来るかなと思った.
+
+        全く同じ: 0
+        全部違う: 1
+        """
+
+        score = 0
+        #self.prev_layer_input  = defaultdict(lambda defaultdict(list))
+        output_differ = {}
+
+        for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
+
+            tp_input = self.network.regions["tp_"+name].getInputData("bottomUpIn").nonzero()[0]
+            tp_output = self.network.regions["tp_"+name].getOutputData("bottomUpOut").nonzero()[0]
+
+            if self.prev_layer_input[name].has_key(tuple(tp_input)):
+                prev_output = self.prev_layer_input[name][tuple(tp_input)]
+
+                same_cell = (set(prev_output) & set(tp_output))
+                output_differ[name] = 1 - float(len(same_cell) )/ len(tp_output)
+
+            self.prev_layer_input[name][tuple(tp_input)] = tp_output
+
+        return output_differ
 
     def _calc_anomaly(self):
         """
@@ -447,14 +430,24 @@ class FunctionRecogniter():
         for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
             self.network.regions["tp_"+name].getSelf().resetSequenceStates()
 
-    def enable_learning_mode(self, enable):
+    def enable_learning_mode(self, enable, layer_name = None):
         """
         各層のSP, TP, ClassifierのlearningModeを変更
         """
-        for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
-            self.network.regions["sp_"+name].setParameter("learningMode", enable)
-            self.network.regions["tp_"+name].setParameter("learningMode", enable)
-            self.network.regions["class_"+name].setParameter("learningMode", enable)
+        if layer_name is None:
+            for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
+                self.network.regions["sp_"+name].setParameter("learningMode", enable)
+                self.network.regions["tp_"+name].setParameter("learningMode", enable)
+                self.network.regions["class_"+name].setParameter("learningMode", enable)
+        else:
+            for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
+                self.network.regions["sp_"+name].setParameter("learningMode", not enable)
+                self.network.regions["tp_"+name].setParameter("learningMode", not enable)
+                self.network.regions["class_"+name].setParameter("learningMode", not enable)
+            for name in layer_name:
+                self.network.regions["sp_"+name].setParameter("learningMode", enable)
+                self.network.regions["tp_"+name].setParameter("learningMode", enable)
+                self.network.regions["class_"+name].setParameter("learningMode", enable)
 
 
     def print_inferences(self, input_data, inferences):
@@ -474,7 +467,7 @@ class FunctionRecogniter():
         for name in sorted(self.dest_resgion_data.keys()):
             print "%6.4f," % (inferences['classifier_'+name]['likelihoodsDict'][input_data['ftype']]),
 
-        for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
+        for name in sorted(self.dest_resgion_data.keys()):
             print "%3.2f," % (inferences["anomaly"][name]),
 
         # for name in sorted(self.dest_resgion_data.keys()):
@@ -482,7 +475,12 @@ class FunctionRecogniter():
 
         print
 
-    def layer_output(self, input_data):
+    def layer_output(self, input_data, region_name=None):
+        if region_name is not None:
+            Region = self.network.regions[region_name]
+            print Region.getOutputData("bottomUpOut").nonzero()[0]
+            return
+
         for name in self.dest_resgion_data.keys():
             SPRegion = self.network.regions["sp_"+name]
             TPRegion = self.network.regions["tp_"+name]

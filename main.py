@@ -39,6 +39,7 @@ def predict_example(fd, recogniter):
                     }
             inferences = recogniter.run(input_data, learn=False)
 
+
             # print
             input_data['ftype'] = ftype
             recogniter.print_inferences(input_data, inferences)
@@ -65,7 +66,7 @@ def predict_example(fd, recogniter):
     # print evaluation summary
     for name in recogniter.dest_resgion_data.keys():
         print '### ', name
-        recogniter.evaluation.print_summary()
+        recogniter.evaluation[name].print_summary()
 
 
 
@@ -203,38 +204,30 @@ def main():
     recogniter = FunctionRecogniter()
 
     # トレーニング
-    for i in range(50):
-        print i,
-        for num, ftype in enumerate(fd.function_list.keys()):
-            data = fd.get_data(ftype)
-            for x, y in data:
-                input_data = {
-                        'xy_value': [x, y],
-                        'x_value': x,
-                        'y_value': y,
-                        'ftype': ftype
-                        }
-                inferences = recogniter.run(input_data, learn=True)
+    # learn_layer = ['region1', 'region2', 'region3']
+    #for learn_layer in [['region1', 'region2'], ['region3']]:
+    for learn_layer in [['region1'], ['region2'],]:
+        for i in range(25):
+            print i,
+            for num, ftype in enumerate(fd.function_list.keys()):
+                data = fd.get_data(ftype)
+                for x, y in data:
+                    input_data = {
+                            'xy_value': [x, y],
+                            'x_value': x,
+                            'y_value': y,
+                            'ftype': ftype
+                            }
 
-                # print
-                recogniter.print_inferences(input_data, inferences)
+                    inferences = recogniter.run(input_data, learn=True, learn_layer=learn_layer)
 
-            recogniter.reset()
+                    # print
+                    recogniter.print_inferences(input_data, inferences)
 
-            # for x, y in reversed(data):
-            #     input_data = {
-            #             'xy_value': [x, y],
-            #             'x_value': x,
-            #             'y_value': y,
-            #             'ftype': ftype
-            #             }
-            #     inferences = recogniter.run(input_data, learn=True)
-            #
-            #     # print
-            #     recogniter.print_inferences(input_data, inferences)
+                recogniter.reset()
 
     # 予測
-    #predict_example(fd, recogniter)
+    predict_example(fd, recogniter)
 
     #predict_example_2(fd, recogniter)
 

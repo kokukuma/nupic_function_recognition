@@ -82,7 +82,7 @@ SENSOR_PARAMS = {
         "minval": 0.0,
     },
     "x_value": None,
-    "y_value": None
+    "y_value": None,
 }
 
 

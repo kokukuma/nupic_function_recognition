@@ -66,6 +66,11 @@ class Plotter(object):
         for non-movable
         """
 
+        if self.movable:
+            plt.ioff()
+            plt.show()
+            return
+
         for idx, title in enumerate(self.settings.keys()):
             for sub_title in self.settings[title]['sub_title']:
                 self.plots[title][sub_title].set_xdata(self.xdata[title][sub_title])
@@ -141,5 +146,6 @@ class Plotter(object):
             self.graphs[idx].autoscale_view(True, True, True)
 
         plt.draw()
+        return plt
 
 
