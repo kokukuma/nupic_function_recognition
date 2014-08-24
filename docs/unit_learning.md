@@ -99,7 +99,7 @@ unit_learning
   + また, flatに置ける差も小さくなっている. なぜ差が出るのかは不明だが.
 
   + 1層構造
-  ![4048_40_32_sin.png](images/4048_40_32_sin.png)
+  ![4048_40_32_sin.png](images/add_function/4048_40_32_sin.png)
 
   + 2層構造 + 層毎に学習
   ![2unit-layer-sin](images/unit_learn_6func/2layer-sin.png)
