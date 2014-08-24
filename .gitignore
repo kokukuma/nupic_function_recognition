@@ -1,3 +1,4 @@
 *.pyc
 *.pkl
 swarm/swarm
+docs/images/multi_layer
