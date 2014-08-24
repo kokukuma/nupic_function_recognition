@@ -40,7 +40,7 @@ nupic_function_recognition
 
 
 ### 汎化
-+ [汎化](docs/generalization.md) 未まとめ
++ [汎化](docs/generalization.md) 未まとめ&妄想
   + sinの周期などを変更した場合に分離出来るか確認する.
   + sensorを分離した場合, 良く判別できる気がする.
 
