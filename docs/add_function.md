@@ -27,6 +27,6 @@ add_function
 
 + 入力毎正解率
   + sin
-    ![4048_40_32_sin.png](images/4048_40_32_sin.png)
+    ![4048_40_32_sin.png](images/add_function/4048_40_32_sin.png)
   + flat
-    ![4048_40_32_flat.png](images/4048_40_32_flat.png)
+    ![4048_40_32_flat.png](images/add_function/4048_40_32_flat.png)

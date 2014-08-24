@@ -29,11 +29,11 @@ nupic_function_recognition
 + [直列層](docs/series_layer.md)
   + 同じ層を2つ重ねる.
   + 交点以外での正解率は上がるが, 交点周辺での正解率は下がる.
-+ [並列層](docs/parallel_layer.md)  未まとめ
++ [並列層](docs/parallel_layer.md) 
   + 同じencoderから2つの異なる層でSDRを作り, その2つを統合する層を作る.
   + 同じ層を繋いだ場合, 直列層とほぼ同じ結果となった.
   + 異なる層を繋いだ場合, 多少結果が良くなった.
-+ [層別学習](docs/unit_learning.md)  未まとめ
++ [層別学習](docs/unit_learning.md)
   + 1層づつ学習させると結果が良くなる.
   + 直列層, 並列層どちらでも同様の結果がでた.
   + sinの分離も出来るようになった.
