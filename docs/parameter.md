@@ -15,13 +15,13 @@ parameter
 
 + 一番正解率が低い定数に置ける結果
   + 1012
-    ![1012_10_16_flat](docs/images/1012_10_16_flat.png)
+    ![1012_10_16_flat](images/1012_10_16_flat.png)
   + 2024
-    ![2024_20_16_flat](docs/images/2024_20_16_flat.png)
+    ![2024_20_16_flat](images/2024_20_16_flat.png)
   + 4048
-    ![4048_40_16_flat](docs/images/4048_40_16_flat.png)
+    ![4048_40_16_flat](images/4048_40_16_flat.png)
   + 8096
-    ![8096_80_16_flat](docs/images/8096_80_16_flat.png)
+    ![8096_80_16_flat](images/8096_80_16_flat.png)
 
 ### SPのカラム発火割合変更
 + カラム数2024をベースとして, カラム発火割合を0.5%, 1%, 2%と変更した.

@@ -30,8 +30,8 @@ single
   + x=50付近では正解率が下がり, flatの一カ所においては不正解となっていることが, それ以外では判別できていることが分かる.
   + なぜ, 常にminusが最も正解率が良くなるのか?(下のパラメータ調査でも同様). 学習させる順番かな?
   + flat
-   ![4048_40_16_flat](docs/images/4048_40_16_flat.png)
+   ![4048_40_16_flat](images/4048_40_16_flat.png)
   + plus
-   ![4048_40_16_plus](docs/images/4048_40_16_plus.png)
+   ![4048_40_16_plus](images/4048_40_16_plus.png)
   + minus
-   ![4048_40_16_minus](docs/images/4048_40_16_minus.png)
+   ![4048_40_16_minus](images/4048_40_16_minus.png)
