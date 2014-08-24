@@ -52,7 +52,7 @@ def predict_example(fd, recogniter):
             plotter.write(title="xy_value", x_value={'value': x}, y_value={'value': y})
             plotter.write(title="likelihood", y_value=inferences[ "classifier_" + recogniter.selectivity]['likelihoodsDict'])
 
-        plotter.show()
+        plotter.show(save_dir='./docs/images/multi_layer/', file_name='2layer-'+ftype+'.png')
         plotter.reset()
 
 
@@ -121,12 +121,12 @@ def predict_example_3(fd, recogniter):
     plotter    = Plotter()
     result = defaultdict(lambda: defaultdict(list))
     plotter.initialize({
-        'selectivity_center':{
-            'ylim': [0,100],
-            'sub_title': recogniter.dest_resgion_data.keys() },
-        'selectivity_outside':{
-            'ylim': [0,100],
-            'sub_title': recogniter.dest_resgion_data.keys() },
+        # 'selectivity_center':{
+        #     'ylim': [0,100],
+        #     'sub_title': recogniter.dest_resgion_data.keys() },
+        # 'selectivity_outside':{
+        #     'ylim': [0,100],
+        #     'sub_title': recogniter.dest_resgion_data.keys() },
         'xy_value':{
             'ylim': [0,100],
             'sub_title': ['value']},
@@ -164,22 +164,22 @@ def predict_example_3(fd, recogniter):
                 tmp[name] = inferences[class_name]['likelihoodsDict'][ftype]
             plotter.write(title="likelihood", y_value=tmp)
 
-        # for plot
-        x_tmp = {}
-        y_tmp = {}
-        for name in recogniter.dest_resgion_data.keys():
-            x_tmp[name] = recogniter.evaluation[name].get_selectivity()[ftype]['x']
-            y_tmp[name] = recogniter.evaluation[name].get_selectivity()[ftype]['y']
-        plotter.add(title="selectivity_center", x_values=x_tmp, y_values=y_tmp)
+        # # for plot
+        # x_tmp = {}
+        # y_tmp = {}
+        # for name in recogniter.dest_resgion_data.keys():
+        #     x_tmp[name] = recogniter.evaluation[name].get_selectivity()[ftype]['x']
+        #     y_tmp[name] = recogniter.evaluation[name].get_selectivity()[ftype]['y']
+        # plotter.add(title="selectivity_center", x_values=x_tmp, y_values=y_tmp)
+        #
+        # x_tmp2 = {}
+        # y_tmp2 = {}
+        # for name in recogniter.dest_resgion_data.keys():
+        #     x_tmp2[name] = recogniter.evaluation_2[name].get_selectivity()[ftype]['x']
+        #     y_tmp2[name] = recogniter.evaluation_2[name].get_selectivity()[ftype]['y']
+        # plotter.add(title="selectivity_outside", x_values=x_tmp2, y_values=y_tmp2)
 
-        x_tmp2 = {}
-        y_tmp2 = {}
-        for name in recogniter.dest_resgion_data.keys():
-            x_tmp2[name] = recogniter.evaluation_2[name].get_selectivity()[ftype]['x']
-            y_tmp2[name] = recogniter.evaluation_2[name].get_selectivity()[ftype]['y']
-        plotter.add(title="selectivity_outside", x_values=x_tmp2, y_values=y_tmp2)
-
-        plotter.show()
+        plotter.show(save_dir='./docs/images/multi_layer/', file_name='each-layer-'+ftype+'.png')
         plotter.reset()
 
 
@@ -205,7 +205,7 @@ def main():
 
     # トレーニング
     # learn_layer = ['region1', 'region2', 'region3']
-    #for learn_layer in [['region1', 'region2'], ['region3']]:
+    #for learn_layer in [['region1', 'region2'], ['region1', 'region2']]:
     for learn_layer in [['region1'], ['region2'],]:
         for i in range(25):
             print i,

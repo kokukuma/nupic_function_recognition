@@ -61,9 +61,12 @@ class Plotter(object):
             self.xdata[title].update(dict([(subt, range(len(values))) for subt,values in y_values.items()]))
 
 
-    def show(self):
+    def show(self, save_dir=None, file_name=None):
         """
         for non-movable
+
+        if save_dir and file_name is not None,
+        this method save image and do not show.
         """
 
         if self.movable:
@@ -80,11 +83,14 @@ class Plotter(object):
             self.graphs[idx].relim()
             self.graphs[idx].autoscale_view(True, True, True)
 
-        plt.show()
+        if save_dir is not None and file_name is not None:
+            plt.savefig(save_dir + file_name)
+        else:
+            plt.show()
 
 
 
-    def initialize(self, settings, movable=False ):
+    def initialize(self, settings, movable=False):
         self.settings = settings
         self.movable = movable
 
