@@ -2,3 +2,4 @@
 *.pkl
 swarm/swarm
 docs/images/multi_layer
+.DS_Store
