@@ -19,6 +19,7 @@ from nupic.engine import Network
 import lib.create_network as cn
 
 
+# TODO: ここを弄らなきゃ行けないのは, せめてネットワークの構造変更するときだけにしたい. classifierは基本外から設定するように...
 
 class FunctionRecogniter():
 
@@ -38,39 +39,40 @@ class FunctionRecogniter():
         self.net_structure['sensor3'] = ['region1']
         self.net_structure['region1'] = ['region2']
 
-        # self.net_structure['sensor1'] = ['region1']
-        # self.net_structure['sensor2'] = ['region2']
-        # self.net_structure['region1'] = ['region3']
-        # self.net_structure['region2'] = ['region3']
-
-
+        # TODO: classifierは, どの層に対して, 何ステップ目のどの値を予測するか, ネットワークの構造とは切り離して, 設定できるようにする.
+        self.predict_value = "ftype"
+        self.predict_step  = 0
 
         # region change params
         self.dest_resgion_data = {
                 'region1': {
+                    'SP_PARAMS':{
+                        "columnCount": 2024,
+                        "numActiveColumnsPerInhArea": 20,
+                        #"stimulusThreshold": 10
+                        # "potentialPct": 0.6,
+                        # "seed": 1956,
+                        },
                     'TP_PARAMS':{
                         "cellsPerColumn": 8,
-                        "permanenceInc": 0.2,
-                        "permanenceDec": 0.1,
-                        #"permanenceDec": 0.0001,
                         },
                     },
                 'region2': {
                     'SP_PARAMS':{
                         "inputWidth": 2024 * (8),
+                        "columnCount": 2024,
+                        "numActiveColumnsPerInhArea": 20,
                         },
                     'TP_PARAMS':{
                         "cellsPerColumn": 8,
-                        "permanenceInc": 0.2,
-                        "permanenceDec": 0.1,
                         },
                     },
-                # 'region3': {
+                # 'region4': {
                 #     'SP_PARAMS':{
-                #         "inputWidth": 2024 * (8),
+                #         "inputWidth": 2024 * (16),
                 #         },
                 #     'TP_PARAMS':{
-                #         "cellsPerColumn": 8,
+                #         "cellsPerColumn": 16,
                 #         },
                 #     },
                  }
@@ -83,8 +85,8 @@ class FunctionRecogniter():
                         "fieldname": u"x_value",
                         "name": u"x_value",
                         "type": "ScalarEncoder",
-                        'maxval': 100.0,
-                        'minval':  0.0,
+                        'maxval':  100.0,
+                        'minval':   0.0,
                         "n": 200,
                         "w": 21,
                         "clipInput": True
@@ -96,8 +98,8 @@ class FunctionRecogniter():
                         "fieldname": u"y_value",
                         "name": u"y_value",
                         "type": "ScalarEncoder",
-                        'maxval': 100.0,
-                        'minval':  0.0,
+                        'maxval':  100.0,
+                        'minval':   0.0,
                         "n": 200,
                         "w": 21,
                         "clipInput": True
@@ -109,6 +111,18 @@ class FunctionRecogniter():
                         'minval':   0.0
                         },
                     },
+                # 'sensor4': {
+                #     'xy_value': {
+                #         'maxval': 60.0,
+                #         'minval':  0.0
+                #         },
+                #     },
+                # 'sensor5': {
+                #     'xy_value': {
+                #         'maxval': 100.0,
+                #         'minval':  40.0
+                #         },
+                #     },
                 # 'sensor3': {
                 #     'xy_value': {
                 #         'maxval': 100.0,
@@ -280,7 +294,7 @@ class FunctionRecogniter():
         inferences = {}
         for name in set( itertools.chain.from_iterable( self.net_structure.values() )):
             class_name = "class_" + name
-            inferences['classifier_'+name]   = self._learn_classifier_multi(class_name, actValue=input_data['ftype'], pstep=0)
+            inferences['classifier_'+name]   = self._learn_classifier_multi(class_name, actValue=input_data[self.predict_value], pstep=self.predict_step)
 
 
 
@@ -290,17 +304,17 @@ class FunctionRecogniter():
         # output differ
         #inferences["output_differ"] = self._calc_output_differ()
 
-        # # selectivity
-        # if input_data['ftype'] is not None and input_data['xy_value'][0] >= 45 and input_data['xy_value'][0] <= 55:
-        #     #self.layer_output(input_data)
-        #     for name in self.dest_resgion_data.keys():
-        #         tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
-        #         self.evaluation[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
-        #
-        # if input_data['ftype'] is not None and (input_data['xy_value'][0] <= 5 or input_data['xy_value'][0] >= 95):
-        #     for name in self.dest_resgion_data.keys():
-        #         tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
-        #         self.evaluation_2[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
+        # selectivity
+        if input_data['ftype'] is not None and input_data['xy_value'][0] >= 45 and input_data['xy_value'][0] <= 55:
+            #self.layer_output(input_data)
+            for name in self.dest_resgion_data.keys():
+                tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
+                self.evaluation[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
+
+        if input_data['ftype'] is not None and (input_data['xy_value'][0] <= 5 or input_data['xy_value'][0] >= 95):
+            for name in self.dest_resgion_data.keys():
+                tp_bottomUpOut = self.network.regions[ "tp_" + name ].getOutputData("bottomUpOut").nonzero()[0]
+                self.evaluation_2[name].save_cell_activity(tp_bottomUpOut, input_data['ftype'])
 
         return inferences
 
@@ -460,7 +474,7 @@ class FunctionRecogniter():
             print "%1s" % (inferences['classifier_'+name]['best']['value'][:1]),
 
         for name in sorted(self.dest_resgion_data.keys()):
-            print "%6.4f," % (inferences['classifier_'+name]['likelihoodsDict'][input_data['ftype']]),
+            print "%6.4f," % (inferences['classifier_'+name]['likelihoodsDict'][input_data[self.predict_value]]),
 
         for name in sorted(self.dest_resgion_data.keys()):
             print "%3.2f," % (inferences["anomaly"][name]),

@@ -53,10 +53,31 @@ PARAMS = {
             "fieldname": u"ftype",
             "name": u"ftype",
             "categoryList": ['plus', 'minus', 'flat', 'sin', 'quad', 'step'],
-            "forced": True,
-            "w": 7,
+            "w": 21,
             },
     },
+    # "CLASSIFIER_ENCODE_PARAMS": {
+    #     "ftype": {
+    #         "type": "SDRCategoryEncoder",
+    #         "fieldname": u"ftype",
+    #         "name": u"ftype",
+    #         "categoryList": ['plus', 'minus', 'flat', 'sin', 'quad', 'step'],
+    #         "n": 200,
+    #         "w": 21,
+    #         },
+    # },
+    # "CLASSIFIER_ENCODE_PARAMS": {
+    #     "y_value": {
+    #         'clipInput': True,
+    #         "type": "ScalarEncoder",
+    #         "fieldname": u"y_value",
+    #         "name": u"y_value",
+    #         "maxval": 100.0,
+    #         "minval": 0.0,
+    #         'n': 200,
+    #         "w": 21,
+    #         },
+    # },
 
 }
 
