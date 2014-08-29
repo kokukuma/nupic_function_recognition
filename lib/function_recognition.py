@@ -39,6 +39,11 @@ class FunctionRecogniter():
         self.net_structure['sensor3'] = ['region1']
         self.net_structure['region1'] = ['region2']
 
+        # self.net_structure['sensor1'] = ['region1']
+        # self.net_structure['sensor2'] = ['region2']
+        # self.net_structure['region1'] = ['region3']
+        # self.net_structure['region2'] = ['region3']
+
         # TODO: classifierは, どの層に対して, 何ステップ目のどの値を予測するか, ネットワークの構造とは切り離して, 設定できるようにする.
         self.predict_value = "ftype"
         self.predict_step  = 0
@@ -48,25 +53,38 @@ class FunctionRecogniter():
                 'region1': {
                     'SP_PARAMS':{
                         "columnCount": 2024,
-                        "numActiveColumnsPerInhArea": 20,
+                        "numActiveColumnsPerInhArea": 40,
                         #"stimulusThreshold": 10
                         # "potentialPct": 0.6,
                         # "seed": 1956,
                         },
                     'TP_PARAMS':{
-                        "cellsPerColumn": 8,
+                        "cellsPerColumn": 32,
                         },
                     },
                 'region2': {
                     'SP_PARAMS':{
-                        "inputWidth": 2024 * (8),
+                        "inputWidth": 2024 * 32,
                         "columnCount": 2024,
-                        "numActiveColumnsPerInhArea": 20,
+                        "numActiveColumnsPerInhArea": 40,
+                        #"stimulusThreshold": 10
+                        # "potentialPct": 0.6,
+                        # "seed": 1956,
                         },
                     'TP_PARAMS':{
-                        "cellsPerColumn": 8,
+                        "cellsPerColumn": 32,
                         },
                     },
+                # 'region3': {
+                #     'SP_PARAMS':{
+                #         "inputWidth": 2024 * (32 + 32),
+                #         "columnCount": 2024,
+                #         "numActiveColumnsPerInhArea": 40,
+                #         },
+                #     'TP_PARAMS':{
+                #         "cellsPerColumn": 32,
+                #         },
+                #     },
                 # 'region4': {
                 #     'SP_PARAMS':{
                 #         "inputWidth": 2024 * (16),

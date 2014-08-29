@@ -31,7 +31,7 @@ class function_data(object):
                 # 'minus': ['minus', 'minus-intercept-1'],
                 # 'plus': ['plus', 'plus-slope-0.3' ],
                 # 'minus': ['minus', 'minus-slope-0.3'],
-                'sin':   ['sin' ],
+                'sin':   ['sin', 'sin3', 'sin7' ],
                 'quad':  ['quad'],
                 'step':  ['step'],
                 }
@@ -40,7 +40,7 @@ class function_data(object):
                 'plus':  lambda x: float(x),
                 'minus': lambda x: 100-float(x),
 
-                'sin':   lambda x: numpy.sin(x *  5 * numpy.pi/self.max_x) * 50 + 50,
+                'sin':   lambda x: numpy.sin(x *  3 * numpy.pi/self.max_x) * 50 + 50,
                 'quad':  lambda x: float(x*x)/self.max_x,
                 'step':  lambda x: 100.0 if int(float(x)/15) % 2 == 0  else 0.0,
 
@@ -58,8 +58,8 @@ class function_data(object):
                 # 'minus-intercept-2': lambda x: -float(x) + 150,
 
                 # cycle
-                #'sin3':   lambda x: numpy.sin(x *  3 * numpy.pi/self.max_x) * 50 + 50,
-                #'sin7':   lambda x: numpy.sin(x *  7 * numpy.pi/self.max_x) * 50 + 50,
+                'sin3':   lambda x: numpy.sin(x *  3 * numpy.pi/self.max_x) * 50 + 50,
+                'sin7':   lambda x: numpy.sin(x *  7 * numpy.pi/self.max_x) * 50 + 50,
 
                 }
 

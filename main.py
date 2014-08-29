@@ -231,8 +231,21 @@ def main():
 
                     # print
                     recogniter.print_inferences(input_data, inferences)
-
                 recogniter.reset()
+
+                # for x, y in sorted(data, key=lambda x:x[0], reverse=True):
+                #     input_data = {
+                #             'xy_value': [x, y],
+                #             'x_value': x,
+                #             'y_value': y,
+                #             'ftype': label
+                #             }
+                #
+                #     inferences = recogniter.run(input_data, learn=True, learn_layer=learn_layer)
+                #
+                #     # print
+                #     recogniter.print_inferences(input_data, inferences)
+                # recogniter.reset()
 
     # 予測
     predict_example(fd, recogniter, image_prefix="layer-")
@@ -250,8 +263,8 @@ def main():
     # fd.function_list['minus'] = lambda x: x * - 0.5 + 75
     # fd.function_list['plus']  = lambda x:  float(x) - 50
     # fd.function_list['minus'] = lambda x: -float(x) + 150
-    # fd.function_list['sin'] = lambda x: numpy.sin(x *  5 * numpy.pi/fd.max_x) * 50 + 50
-    # predict_example(fd, recogniter, image_prefix='generalization-fix-slope-', ftypes=['sin'])
+    fd.function_list['sin'] = lambda x: numpy.sin(x *  5 * numpy.pi/fd.max_x) * 50 + 50
+    predict_example(fd, recogniter, image_prefix='generalization-fix-slope-', ftypes=['sin'])
 
 
 
